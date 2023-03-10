@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "919506372649",
+    "project_id": "flungry",
+    "storage_bucket": "flungry.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:919506372649:android:e8458b4392bae9366a3438",
+        "android_client_info": {
+          "package_name": "com.example.flungry"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "919506372649-825sfutrj56rkk8fuiklu02t0h13j867.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDc3-MlNdq_NfpoBGITlM4qnup7TVGTfvg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "919506372649-825sfutrj56rkk8fuiklu02t0h13j867.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "919506372649-ec57v4g6n822sq37ivb72g5c8slmh61h.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.flungry"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
