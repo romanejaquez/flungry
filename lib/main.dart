@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   runApp(const FluffyApp());
 }
 
@@ -27,6 +35,7 @@ class FluffyAppHome extends StatefulWidget {
 class _FluffyAppHomeState extends State<FluffyAppHome> with SingleTickerProviderStateMixin {
 
   late AnimationController ctrl;
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   @override
   void initState() {
@@ -34,11 +43,13 @@ class _FluffyAppHomeState extends State<FluffyAppHome> with SingleTickerProvider
 
     ctrl = AnimationController(vsync: this,
       duration: const Duration(seconds: 3)
-    )..forward();
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+
+    DocumentReference screens = firestore.collection('order-screens').doc('screen1');
 
     double squareDim = 100;
 
@@ -46,20 +57,37 @@ class _FluffyAppHomeState extends State<FluffyAppHome> with SingleTickerProvider
     double xPos = normalizedDim / 2; // - ((1 / normalizedDim) / 2);
 
     return Scaffold(
-      body: Stack(
-        children: [
-          SlideTransition(
-          position: Tween<Offset>(
-            begin: Offset(xPos, -1.0),
-            end: Offset(xPos, (MediaQuery.of(context).size.height / squareDim))
-          ).animate(CurvedAnimation(parent: ctrl, curve: Curves.linear)),
-          child: Container(
-            width: squareDim,
-            height: squareDim,
-            color: Colors.red,
-          ),
-            )
-        ],
+      body: StreamBuilder(
+        stream: screens.snapshots(),
+        builder: (context, snapshot) {
+
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const SizedBox.shrink();
+          }
+
+          var doc = snapshot.data!.data() as Map<String, dynamic>;
+          if (doc['animate']) {
+            ctrl.forward().then((value) {
+              ctrl.reset();
+            });
+          }
+
+          return Stack(
+            children: [
+              SlideTransition(
+              position: Tween<Offset>(
+                begin: Offset(xPos, -1.0),
+                end: Offset(xPos, (MediaQuery.of(context).size.height / squareDim))
+              ).animate(CurvedAnimation(parent: ctrl, curve: Curves.linear)),
+              child: Container(
+                width: squareDim,
+                height: squareDim,
+                color: Colors.red,
+              ),
+                )
+            ],
+          );
+        }
       ),
     );
   }
