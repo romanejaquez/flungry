@@ -1,5 +1,9 @@
+import 'package:flungry/flungry_screen1.dart';
+import 'package:flungry/flungry_screen2.dart';
+import 'package:flungry/flungry_screen3.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:go_router/go_router.dart';
 import 'firebase_options.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -12,130 +16,84 @@ void main() async {
   runApp(const FluffyApp());
 }
 
+class AppRoutes {
+
+  static final router = GoRouter(
+    routerNeglect: true,
+    initialLocation: '/landing',
+    routes: [
+      GoRoute(
+        path: '/landing',
+        pageBuilder: (context, state) {
+          return const NoTransitionPage(child: FlungryLandingPage());
+        }
+      ),
+      GoRoute(
+        path: '/screen1',
+        pageBuilder: (context, state) {
+          return const NoTransitionPage(child: FlungryScreen1());
+        }
+      ),
+      GoRoute(
+        path: '/screen2',
+        pageBuilder: (context, state) {
+          return const NoTransitionPage(child: FlungryScreen2());
+        }
+      ),
+      GoRoute(
+        path: '/screen3',
+        pageBuilder: (context, state) {
+          return const NoTransitionPage(child: FlungryScreen3());
+        }
+      )
+    ]
+  );
+
+}
+
+// wrapper screens
+
+
+class FlungryLandingPage extends StatelessWidget {
+  const FlungryLandingPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text('Landing page!'),
+            TextButton(onPressed: () {
+                firestore.collection('order-screens').doc('screen1').set({
+                  'animate': true,
+                  'from': 'left'
+                });
+            }, child: Text('Start Animations!'))
+          ],
+        ),
+      )
+    );
+  }
+}
+
 class FluffyApp extends StatelessWidget {
   const FluffyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      home: FluffyAppHome()
+      routeInformationProvider: AppRoutes.router.routeInformationProvider,
+      routeInformationParser: AppRoutes.router.routeInformationParser,
+      routerDelegate: AppRoutes.router.routerDelegate,
     );
   }
 }
 
-
-class FluffyAppHome extends StatefulWidget {
-  const FluffyAppHome({Key? key}) : super(key: key);
-
-  @override
-  State<FluffyAppHome> createState() => _FluffyAppHomeState();
-}
-
-class _FluffyAppHomeState extends State<FluffyAppHome> with SingleTickerProviderStateMixin {
-
-  late AnimationController ctrl;
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
-
-  @override
-  void initState() {
-    super.initState();
-
-    ctrl = AnimationController(vsync: this,
-      duration: const Duration(seconds: 3)
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-
-    DocumentReference screens = firestore.collection('order-screens').doc('screen1');
-
-    double squareDim = 100;
-
-    double normalizedDim = (MediaQuery.of(context).size.width / squareDim);
-    double xPos = normalizedDim / 2; // - ((1 / normalizedDim) / 2);
-
-    return Scaffold(
-      body: StreamBuilder(
-        stream: screens.snapshots(),
-        builder: (context, snapshot) {
-
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const SizedBox.shrink();
-          }
-
-          var doc = snapshot.data!.data() as Map<String, dynamic>;
-          if (doc['animate']) {
-            ctrl.forward().then((value) {
-              ctrl.reset();
-            });
-          }
-
-          return Stack(
-            children: [
-              SlideTransition(
-              position: Tween<Offset>(
-                begin: Offset(xPos, -1.0),
-                end: Offset(xPos, (MediaQuery.of(context).size.height / squareDim))
-              ).animate(CurvedAnimation(parent: ctrl, curve: Curves.linear)),
-              child: Container(
-                width: squareDim,
-                height: squareDim,
-                color: Colors.red,
-              ),
-                )
-            ],
-          );
-        }
-      ),
-    );
-  }
-}
-
-class FlungrySecondScreen extends StatefulWidget {
-  FlungrySecondScreen({Key? key}) : super(key: key);
-
-  @override
-  State<FlungrySecondScreen> createState() => _FlungrySecondScreenState();
-}
-
-class _FlungrySecondScreenState extends State<FlungrySecondScreen> with SingleTickerProviderStateMixin {
-  late AnimationController ctrl;
-
-  @override
-  void initState() {
-    super.initState();
-
-    ctrl = AnimationController(vsync: this,
-      duration: const Duration(seconds: 3)
-    )..forward();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-
-    double squareDim = 100;
-
-    double normalizedDim = (MediaQuery.of(context).size.height / squareDim);
-    double xPos = normalizedDim / 2; // - ((1 / normalizedDim) / 2);
-
-    return Scaffold(
-      body: Stack(
-        children: [
-          SlideTransition(
-          position: Tween<Offset>(
-            begin: Offset(-1.0, xPos),
-            end: Offset((MediaQuery.of(context).size.width / squareDim), xPos)
-          ).animate(CurvedAnimation(parent: ctrl, curve: Curves.linear)),
-          child: Container(
-            width: squareDim,
-            height: squareDim,
-            color: Colors.red,
-          ),
-            )
-        ],
-      ),
-    );
-  }
-}
