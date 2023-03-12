@@ -1,6 +1,5 @@
 
-
-import 'package:flungry/flungry_position_screens.dart';
+import 'package:flungry/pages/flungry_position_screens.dart';
 import 'package:flutter/material.dart';
 
 class FlungryAnimationWrapper extends StatelessWidget {

@@ -1,6 +1,10 @@
-import 'package:flungry/flungry_screen1.dart';
-import 'package:flungry/flungry_screen2.dart';
-import 'package:flungry/flungry_screen3.dart';
+
+import 'package:flungry/pages/flungry_landing.dart';
+import 'package:flungry/pages/flungry_loading.dart';
+import 'package:flungry/pages/flungry_orderflow_up.dart';
+import 'package:flungry/pages/flungry_screen1.dart';
+import 'package:flungry/pages/flungry_screen2.dart';
+import 'package:flungry/pages/flungry_screen3.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:go_router/go_router.dart';
@@ -20,12 +24,24 @@ class AppRoutes {
 
   static final router = GoRouter(
     routerNeglect: true,
-    initialLocation: '/landing',
+    initialLocation: '/loading',
     routes: [
       GoRoute(
-        path: '/landing',
+        path: '/loading',
         pageBuilder: (context, state) {
-          return const NoTransitionPage(child: FlungryLandingPage());
+          return const NoTransitionPage(child: FlungryLoading());
+        }
+      ),
+      GoRoute(
+        path: '/landing',
+        builder: (context, state) {
+          return FlungryLandingPage();
+        }
+      ),
+      GoRoute(
+        path: '/order-up',
+        pageBuilder: (context, state) {
+          return const NoTransitionPage(child: FlungryOrderFlowUp());
         }
       ),
       GoRoute(
@@ -52,43 +68,15 @@ class AppRoutes {
 }
 
 // wrapper screens
-
-
-class FlungryLandingPage extends StatelessWidget {
-  const FlungryLandingPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-
-    FirebaseFirestore firestore = FirebaseFirestore.instance;
-
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text('Landing page!'),
-            TextButton(onPressed: () {
-                firestore.collection('order-screens').doc('screen1').set({
-                  'animate': true,
-                  'from': 'left'
-                });
-            }, child: Text('Start Animations!'))
-          ],
-        ),
-      )
-    );
-  }
-}
-
 class FluffyApp extends StatelessWidget {
   const FluffyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      theme: ThemeData(
+        fontFamily: 'Bukhari'
+      ),
       debugShowCheckedModeBanner: false,
       routeInformationProvider: AppRoutes.router.routeInformationProvider,
       routeInformationParser: AppRoutes.router.routeInformationParser,

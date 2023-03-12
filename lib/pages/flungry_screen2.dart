@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flungry/flungry_animation_wrapper.dart';
+import 'package:flungry/pages/flungry_animation_wrapper.dart';
 import 'package:flutter/material.dart';
 
 class FlungryScreen2 extends StatefulWidget {

@@ -1,15 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flungry/flungry_animation_wrapper.dart';
+import 'package:flungry/pages/flungry_animation_wrapper.dart';
 import 'package:flutter/material.dart';
 
-class FlungryScreen1 extends StatefulWidget {
-  const FlungryScreen1({super.key});
+class FlungryScreen3 extends StatefulWidget {
+  const FlungryScreen3({super.key});
 
   @override
-  State<FlungryScreen1> createState() => _FlungryScreen1State();
+  State<FlungryScreen3> createState() => _FlungryScreen3State();
 }
 
-class _FlungryScreen1State extends State<FlungryScreen1> with SingleTickerProviderStateMixin {
+class _FlungryScreen3State extends State<FlungryScreen3> with SingleTickerProviderStateMixin {
 
   late AnimationController ctrl;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -26,7 +26,7 @@ class _FlungryScreen1State extends State<FlungryScreen1> with SingleTickerProvid
   @override
   Widget build(BuildContext context) {
 
-    DocumentReference screens = firestore.collection('order-screens').doc('screen1');
+    DocumentReference screens = firestore.collection('order-screens').doc('screen3');
 
     return Scaffold(
       body: StreamBuilder(
@@ -42,11 +42,16 @@ class _FlungryScreen1State extends State<FlungryScreen1> with SingleTickerProvid
             var from = doc['from'];
             return FlungryAnimationWrapper(
               from: from,
-              onComplete: () {
-                firestore.collection('order-screens').doc('screen2').set({
-                  'animate': true,
-                  'from': 'left'
-                });
+              onComplete: () async {
+                var batch = firestore.batch();
+                var s1Ref = firestore.collection('order-screens').doc('screen1');
+                batch.set(s1Ref, { 'animate': false, 'from': 'left'});
+                var s2Ref = firestore.collection('order-screens').doc('screen2');
+                batch.set(s2Ref, { 'animate': false, 'from': 'left'});
+                var s3Ref = firestore.collection('order-screens').doc('screen3');
+                batch.set(s3Ref, { 'animate': false, 'from': 'left'});
+
+                await batch.commit();
               },  
             );            
           }
