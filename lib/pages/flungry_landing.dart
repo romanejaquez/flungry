@@ -40,7 +40,7 @@ class _FlungryLandingPageState extends State<FlungryLandingPage> {
               const FlungryHeader(),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 50),
                   child: Row(
                     children: [
                       const FlungryBurgerBuilder(),
@@ -53,6 +53,7 @@ class _FlungryLandingPageState extends State<FlungryLandingPage> {
                             color: FlungryColors.mainLightColor
                           ),
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
                               Expanded(
                                 child: FlungrySteps(),

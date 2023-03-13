@@ -7,6 +7,7 @@ import 'package:flungry/pages/flungry_screen2.dart';
 import 'package:flungry/pages/flungry_screen3.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'firebase_options.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -17,7 +18,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(const FluffyApp());
+  runApp(ProviderScope(child: const FluffyApp()));
 }
 
 class AppRoutes {

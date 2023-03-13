@@ -3,17 +3,19 @@ import 'dart:async';
 import 'package:flungry/helpers/colors.dart';
 import 'package:flungry/helpers/enums.dart';
 import 'package:flungry/helpers/utils.dart';
+import 'package:flungry/providers/flungrysteps.provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rive/rive.dart' as rive;
 import 'package:flutter/material.dart';
 
-class FlungryBurgerBuilder extends StatefulWidget {
+class FlungryBurgerBuilder extends ConsumerStatefulWidget {
   const FlungryBurgerBuilder({super.key});
 
   @override
-  State<FlungryBurgerBuilder> createState() => _FlungryBurgerBuilderState();
+  ConsumerState<FlungryBurgerBuilder> createState() => _FlungryBurgerBuilderState();
 }
 
-class _FlungryBurgerBuilderState extends State<FlungryBurgerBuilder> {
+class _FlungryBurgerBuilderState extends ConsumerState<FlungryBurgerBuilder> {
 
   late rive.StateMachineController smController;
   late rive.RiveAnimation animation;
@@ -55,9 +57,9 @@ class _FlungryBurgerBuilderState extends State<FlungryBurgerBuilder> {
 
     var valuesLength = 0;
 
-    setState(() {
-      mappings[0].value = true;
-    });
+    // setState(() {
+    //   mappings[0].value = true;
+    // });
 
     // orderTimer = Timer(const Duration(seconds: 2), (){
     //   setState(() {
@@ -65,21 +67,41 @@ class _FlungryBurgerBuilderState extends State<FlungryBurgerBuilder> {
     //   });
     // });
 
-    orderTimer = Timer.periodic(const Duration(seconds: 2), (timer) {
-      if (valuesLength == BurgerAnimation.values.length - 1) {
-        timer.cancel();
-      }
+    // orderTimer = Timer.periodic(const Duration(seconds: 2), (timer) {
+    //   if (valuesLength == BurgerAnimation.values.length - 1) {
+    //     timer.cancel();
+    //   }
 
-      setState(() {
-        mappings[valuesLength].value = true;
-      });
+    //   setState(() {
+    //     mappings[valuesLength].value = true;
+    //   });
 
-      valuesLength++;
-    });
+    //   valuesLength++;
+    // });
   }
 
   @override
   Widget build(BuildContext context) {
+
+    final flungryStep = ref.watch(flungryStepsProvider);
+    final isLastStep = ref.read(flungryStepsProvider.notifier).isLastStep();
+
+    if (mappings.isNotEmpty) {
+      if (flungryStep.isComplete) {
+        mappings[flungryStep.index].value = true;
+      }
+
+      if (flungryStep.isComplete && isLastStep) {
+        orderTimer = Timer(const Duration(seconds: 1), () {
+          mappings[BurgerAnimation.closebun.index].value = true;
+        });
+
+        orderTimer = Timer(const Duration(seconds: 2), () {
+          mappings[BurgerAnimation.finalanim.index].value = true;
+        });
+      }
+    }
+
     return Container(
       margin: const EdgeInsets.all(10),
       padding: const EdgeInsets.all(30),
@@ -96,7 +118,10 @@ class _FlungryBurgerBuilderState extends State<FlungryBurgerBuilder> {
         borderRadius: BorderRadius.circular(25),
         color: FlungryColors.tertiaryColor
       ),
-      child: animation,
+      child: Transform.scale(
+        scale: 1.25,
+        origin: Offset.zero,
+        child: animation),
     );
   }
 }

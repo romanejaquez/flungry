@@ -1,12 +1,18 @@
 import 'package:flungry/helpers/colors.dart';
 import 'package:flungry/helpers/flungry_icons.dart';
+import 'package:flungry/providers/flungrysteps.provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class FlungryStepsFooter extends StatelessWidget {
+class FlungryStepsFooter extends ConsumerWidget {
   const FlungryStepsFooter({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+
+    var currentStep = ref.watch(flungryStepsProvider);
+    var flungrySteps = ref.read(flungryStepsProvider.notifier);
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -15,7 +21,9 @@ class FlungryStepsFooter extends StatelessWidget {
             shape: const StadiumBorder(),
             backgroundColor: FlungryColors.mainColor
           ),
-          onPressed: () {}, 
+          onPressed: flungrySteps.canMoveToPreviousStep() ? () {
+            flungrySteps.moveToPreviousStep();
+          } : null, 
           child: Padding(
             padding: const EdgeInsets.all(10),
             child: Row(
@@ -33,7 +41,9 @@ class FlungryStepsFooter extends StatelessWidget {
             shape: const StadiumBorder(),
             backgroundColor: FlungryColors.mainColor
           ),
-          onPressed: () {}, 
+          onPressed: currentStep.isComplete && flungrySteps.canMoveToNextStep() ? () {
+            flungrySteps.moveToNextStep();
+          } : null, 
           child: Padding(
             padding: const EdgeInsets.all(10),
             child: Row(
