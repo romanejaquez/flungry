@@ -14,13 +14,13 @@ class FlungryHeader extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(30),
             color: Colors.white.withOpacity(0.2),
-            child: Icon(Flungry.menu, color: Colors.white)),
+            child: const Icon(Flungry.menu, color: Colors.white)),
           Expanded(
             child: Row(
-              children: [
-                const SizedBox(width: 40),
+              children: const [
+                SizedBox(width: 40),
                 Icon(Flungry.flungry_burger, color: Colors.white, size: 40),
-                const SizedBox(width: 20),
+                SizedBox(width: 20),
                 Icon(Flungry.flungry_text, color: Colors.white, size: 40),
               ],
             ),

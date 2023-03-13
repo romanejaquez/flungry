@@ -13,45 +13,52 @@ class FlungryStepsHeader extends ConsumerWidget {
     var currentStep = ref.watch(flungryStepsProvider);
     var steps = ref.watch(flungryStepsProvider.notifier).steps;
 
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 20.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: List.generate(steps.length, (index) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: List.generate(steps.length, (index) {
     
-          FlungryStep step = steps.firstWhere((s) => s.index == index);
+            FlungryStep step = steps.firstWhere((s) => s.index == index);
 
-          var stepRow = Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              step.index != 0 ? Expanded(
-                child: Container(
-                  height: 5,
+            var stepRow = Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                step.index != 0 ? Expanded(
+                  child: Container(
+                    height: 5,
+                    decoration: BoxDecoration(
+                      color: step.isComplete ? FlungryColors.secondaryColor : Colors.white,
+                      borderRadius: BorderRadius.circular(20)
+                    ),
+                  ),
+                ) : const SizedBox.shrink(),
+                Container(
+                  width: 20, 
+                  height: 20,
+                  margin: EdgeInsets.only(right: step.index == steps.length - 1 ? 0 : 10, left: step.index == 0 ? 0 : 10),
                   decoration: BoxDecoration(
-                    color: step.isComplete ? FlungryColors.secondaryColor : Colors.white,
-                    borderRadius: BorderRadius.circular(20)
+                    shape: BoxShape.circle,
+                    color: step.isComplete ? FlungryColors.secondaryColor : Colors.white
                   ),
                 ),
-              ) : const SizedBox.shrink(),
-              Container(
-                width: 20, 
-                height: 20,
-                margin: EdgeInsets.only(right: step.index == steps.length - 1 ? 0 : 10, left: step.index == 0 ? 0 : 10),
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: step.isComplete ? FlungryColors.secondaryColor : Colors.white
-                ),
-              ),
-            ],
-          );
-
-          return step.index == 0 ?
-            stepRow : Expanded(
-              child: stepRow,
+              ],
             );
-          })
-      ),
+
+            return step.index == 0 ?
+              stepRow : Expanded(
+                child: stepRow,
+              );
+            })
+        ),
+        const SizedBox(height: 20),
+        Text(currentStep.label, textAlign: TextAlign.start,
+          style: const TextStyle(color: FlungryColors.secondaryColor, fontSize: 40)
+        )
+      ],
     );
   }
 }

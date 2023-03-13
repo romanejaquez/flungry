@@ -36,6 +36,32 @@ class FlungryStepsFooter extends ConsumerWidget {
             ),
           )
         ),
+        
+        flungrySteps.isLastStep() ?
+
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            shape: const StadiumBorder(),
+            backgroundColor: FlungryColors.mainColor
+          ),
+          onPressed: () {
+            
+          }, 
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: const [
+                Icon(Flungry.flungry_burger, color: Colors.white, size: 30),
+                SizedBox(width: 10),
+                Text('Place Order', style: TextStyle(fontSize: 30))
+              ].reversed.toList(),
+            ),
+          )
+        )
+
+        :
+
         ElevatedButton(
           style: ElevatedButton.styleFrom(
             shape: const StadiumBorder(),
@@ -55,7 +81,7 @@ class FlungryStepsFooter extends ConsumerWidget {
               ].reversed.toList(),
             ),
           )
-        )
+        ),
       ],
     );
   }

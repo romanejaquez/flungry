@@ -31,16 +31,9 @@ class FlungryStepsNotifierProvider extends StateNotifier<FlungryStep> {
 
   void completeCurrentStep(FlungryStepOption selectedOption) {
     
-    var option = FlungryStepOption(
-      index: selectedOption.index,
-      img: selectedOption.img,
-      item: selectedOption.item,
-      description: selectedOption.description,
-      price: selectedOption.price,
-      isSelected: true
-    );
-
-    var updatedOptionsList = state.options.where((o) => o.item != selectedOption.item).toList();
+    var updatedOptionsList = state.options.map((o) {
+      return o.copyWith(isSelected: o.index == selectedOption.index);
+    }).toList();
 
     var updatedSteps = steps.where((s) => s != state).toList();
 
@@ -48,7 +41,7 @@ class FlungryStepsNotifierProvider extends StateNotifier<FlungryStep> {
       label: state.label,
       index: state.index,
       isComplete: true,
-      options: [...updatedOptionsList, option]
+      options: updatedOptionsList
     );
 
     steps = [...updatedSteps, currentStep];
