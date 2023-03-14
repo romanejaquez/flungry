@@ -1,6 +1,7 @@
 
 import 'package:flungry/pages/flungry_landing.dart';
 import 'package:flungry/pages/flungry_loading.dart';
+import 'package:flungry/pages/flungry_order_complete.dart';
 import 'package:flungry/pages/flungry_orderflow_up.dart';
 import 'package:flungry/pages/flungry_screen1.dart';
 import 'package:flungry/pages/flungry_screen2.dart';
@@ -37,6 +38,12 @@ class AppRoutes {
         path: '/landing',
         builder: (context, state) {
           return FlungryLandingPage();
+        }
+      ),
+      GoRoute(
+        path: '/order-complete',
+        builder: (context, state) {
+          return FlungryOrderComplete();
         }
       ),
       GoRoute(

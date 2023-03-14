@@ -3,6 +3,7 @@ import 'package:flungry/helpers/flungry_icons.dart';
 import 'package:flungry/providers/flungrysteps.provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class FlungryStepsFooter extends ConsumerWidget {
   const FlungryStepsFooter({super.key});
@@ -45,7 +46,7 @@ class FlungryStepsFooter extends ConsumerWidget {
             backgroundColor: FlungryColors.mainColor
           ),
           onPressed: () {
-            
+            GoRouter.of(context).go('/order-complete');
           }, 
           child: Padding(
             padding: const EdgeInsets.all(10),

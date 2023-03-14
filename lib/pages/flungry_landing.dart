@@ -54,7 +54,7 @@ class _FlungryLandingPageState extends State<FlungryLandingPage> {
                           ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
+                            children: const [
                               Expanded(
                                 child: FlungrySteps(),
                               ),

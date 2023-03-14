@@ -56,7 +56,7 @@ class FlungryStepOptions extends ConsumerWidget {
                     width: 200,
                     child: Text(singleOption.item, style: const TextStyle(color: Colors.white, fontSize: 30))),
                     const SizedBox(height: 10),
-                    Text(singleOption.description, style: const TextStyle(color: FlungryColors.secondaryColor)),
+                    Text(singleOption.description, style: const TextStyle(color: FlungryColors.tertiaryColor)),
                     const SizedBox(height: 10),
                     Text(NumberFormat.currency(symbol: '\$').format(singleOption.price),
                       style: const TextStyle(fontSize: 25, color: Colors.white))

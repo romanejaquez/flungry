@@ -1,8 +1,6 @@
 import 'dart:async';
-
 import 'package:flungry/helpers/colors.dart';
 import 'package:flungry/helpers/enums.dart';
-import 'package:flungry/helpers/utils.dart';
 import 'package:flungry/providers/flungrysteps.provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rive/rive.dart' as rive;
@@ -54,30 +52,6 @@ class _FlungryBurgerBuilderState extends ConsumerState<FlungryBurgerBuilder> {
       mappings.add(smController.findInput<bool>(anim.name) as rive.SMIBool);
       mappings[anim.index].value = false;
     }
-
-    var valuesLength = 0;
-
-    // setState(() {
-    //   mappings[0].value = true;
-    // });
-
-    // orderTimer = Timer(const Duration(seconds: 2), (){
-    //   setState(() {
-    //     mappings[8].value = false;
-    //   });
-    // });
-
-    // orderTimer = Timer.periodic(const Duration(seconds: 2), (timer) {
-    //   if (valuesLength == BurgerAnimation.values.length - 1) {
-    //     timer.cancel();
-    //   }
-
-    //   setState(() {
-    //     mappings[valuesLength].value = true;
-    //   });
-
-    //   valuesLength++;
-    // });
   }
 
   @override

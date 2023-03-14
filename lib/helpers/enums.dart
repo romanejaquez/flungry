@@ -7,5 +7,7 @@ enum BurgerAnimation {
   veggie2,
   closebun,
   finalanim,
-  full
+  full,
+  complete,
+  completeidle
 }
