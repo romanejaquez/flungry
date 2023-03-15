@@ -88,7 +88,7 @@ class _FlungryOrderCompleteState extends ConsumerState<FlungryOrderComplete> {
                 )
             ),
           ),
-          Align(
+          const Align(
             alignment: Alignment.centerRight,
             child: FlungryOrderFlowStart(),
           ),

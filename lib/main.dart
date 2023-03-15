@@ -2,10 +2,12 @@
 import 'package:flungry/pages/flungry_landing.dart';
 import 'package:flungry/pages/flungry_loading.dart';
 import 'package:flungry/pages/flungry_order_complete.dart';
+import 'package:flungry/pages/flungry_order_received.dart';
 import 'package:flungry/pages/flungry_orderflow_up.dart';
 import 'package:flungry/pages/flungry_screen1.dart';
 import 'package:flungry/pages/flungry_screen2.dart';
 import 'package:flungry/pages/flungry_screen3.dart';
+import 'package:flungry/pages/flutter_order_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -37,39 +39,56 @@ class AppRoutes {
       GoRoute(
         path: '/landing',
         builder: (context, state) {
-          return FlungryLandingPage();
+          return const FlungryLandingPage();
         }
       ),
       GoRoute(
         path: '/order-complete',
         builder: (context, state) {
-          return FlungryOrderComplete();
+          return const FlungryOrderComplete();
         }
       ),
       GoRoute(
-        path: '/order-up',
-        pageBuilder: (context, state) {
-          return const NoTransitionPage(child: FlungryOrderFlowUp());
+        path: '/order-screen',
+        builder: (context, state) {
+          return FlungryOrderScreen(
+            screenIndex: int.parse(state.queryParams['screenIndex']!),
+            pipeArtboard: state.queryParams['artboard']!,
+            secs: int.parse(state.queryParams['secs']!),
+          );
         }
       ),
       GoRoute(
-        path: '/screen1',
-        pageBuilder: (context, state) {
-          return const NoTransitionPage(child: FlungryScreen1());
+        path: '/order-received',
+        builder: (context, state) {
+          return const FlungryOrderReceived();
         }
       ),
-      GoRoute(
-        path: '/screen2',
-        pageBuilder: (context, state) {
-          return const NoTransitionPage(child: FlungryScreen2());
-        }
-      ),
-      GoRoute(
-        path: '/screen3',
-        pageBuilder: (context, state) {
-          return const NoTransitionPage(child: FlungryScreen3());
-        }
-      )
+
+      // GoRoute(
+      //   path: '/order-up',
+      //   pageBuilder: (context, state) {
+      //     return const NoTransitionPage(child: FlungryOrderFlowUp());
+      //   }
+      // ),
+      // GoRoute(
+      //   path: '/screen1',
+      //   pageBuilder: (context, state) {
+      //     return const NoTransitionPage(child: FlungryScreen1());
+      //   }
+      // ),
+      // GoRoute(
+      //   path: '/screen2',
+      //   pageBuilder: (context, state) {
+      //     return const NoTransitionPage(child: FlungryScreen2());
+      //   }
+      // ),
+      // GoRoute(
+      //   path: '/screen3',
+      //   pageBuilder: (context, state) {
+      //     return const NoTransitionPage(child: FlungryScreen3());
+      //   }
+      // )
     ]
   );
 

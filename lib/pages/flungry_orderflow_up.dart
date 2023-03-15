@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
 
@@ -16,6 +17,8 @@ class _FlungryOrderFlowUpState extends State<FlungryOrderFlowUp> {
   late RiveAnimation animation;
   late SMIBool input;
   Timer orderTimer = Timer(Duration.zero, () {});
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+
 
   @override
   void initState() {
@@ -28,11 +31,14 @@ class _FlungryOrderFlowUpState extends State<FlungryOrderFlowUp> {
       onInit: onRiveInit,
     );
 
-    orderTimer = Timer.periodic(const Duration(seconds: 3), (timer) {
+    firestore.collection('order-screens').doc('screen1').snapshots().listen((snapshot) {
+        var doc = snapshot.data() as Map<String, dynamic>;
 
-      setState(() {
-          input.value = !input.value;
-        });
+        if (doc['animate']) {
+          setState(() {
+            input.value = !input.value;
+          });
+        }
     });
   }
 
@@ -64,7 +70,6 @@ class _FlungryOrderFlowUpState extends State<FlungryOrderFlowUp> {
         children: [
           Container(
             child: animation,
-            
           )
         ],
     );

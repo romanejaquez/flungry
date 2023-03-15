@@ -94,6 +94,11 @@ flutter:
     - family:  Flungry
       fonts:
         - asset: assets/fonts/Flungry.ttf
+    - family:  Product Sans
+      fonts:
+        - asset: assets/fonts/Product Sans Regular.ttf
+        - asset: assets/fonts/Product Sans Bold.ttf
+          weight: 900
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf
