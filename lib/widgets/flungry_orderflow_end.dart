@@ -23,9 +23,11 @@ class _FlungryOrderFlowEndState extends ConsumerState<FlungryOrderFlowEnd> {
   late rive.RiveAnimation animation;
   late rive.SMIBool loading;
   late rive.SMIBool run;
+  Timer orderTimerStart = Timer(Duration.zero, () {});
   Timer orderTimerEnd = Timer(Duration.zero, () {});
   Timer orderTimerNext = Timer(Duration.zero, () {});
   FirebaseFirestore firestore = FirebaseFirestore.instance;
+  int maxScreenIndex = 4;
 
   @override
   void initState() {
@@ -41,6 +43,7 @@ class _FlungryOrderFlowEndState extends ConsumerState<FlungryOrderFlowEnd> {
 
   @override
   void dispose() {
+    orderTimerStart.cancel();
     orderTimerEnd.cancel();
     orderTimerNext.cancel();
     super.dispose();
@@ -56,25 +59,29 @@ class _FlungryOrderFlowEndState extends ConsumerState<FlungryOrderFlowEnd> {
 
     run = smController.findInput<bool>('run') as rive.SMIBool;
 
-    firestore.collection('order-screens').doc('screen10').snapshots().listen((snapshot) {
+    firestore.collection('order-screens').doc('screen${maxScreenIndex + 1}').snapshots().listen((snapshot) {
       var doc = snapshot.data() as Map<String, dynamic>;
 
       if (doc['animate']) {
         setState(() {
           run.value = true;
         });
-      }
 
-      orderTimerEnd = Timer(const Duration(seconds: 1), () {
-        widget.onEnd();
-      });
+        orderTimerEnd = Timer(const Duration(seconds: 1), () {
+          widget.onEnd();
 
-      orderTimerNext = Timer(const Duration(seconds: 2), () {
-        widget.onEnd();
-        setState(() {
-          run.value = false;
+          orderTimerNext = Timer(const Duration(seconds: 2), () {
+
+            firestore.collection('order-screens').doc('screen${maxScreenIndex + 1}').set({
+              'animate': false
+            }, SetOptions(merge: true));
+            
+            setState(() {
+              run.value = false;
+            });
+          });
         });
-      });
+      }
       
     });
   }

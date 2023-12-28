@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flungry/helpers/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
 
@@ -29,6 +30,7 @@ class _FlungryOrderScreenState extends State<FlungryOrderScreen> {
   Timer orderTimerCurrent = Timer(Duration.zero, () {});
   Timer orderTimerNext = Timer(Duration.zero, () {});
   FirebaseFirestore firestore = FirebaseFirestore.instance;
+  int maxScreenIndex = 4;
 
   @override
   void initState() {
@@ -83,11 +85,16 @@ class _FlungryOrderScreenState extends State<FlungryOrderScreen> {
         });
 
         orderTimerNext = Timer(Duration(seconds: widget.secs - 1), () {
-          if (widget.screenIndex <= 4) {
-              firestore.collection('order-screens').doc('screen${widget.screenIndex + 1}').set({
-                'animate': true
-              }, SetOptions(merge: true));
-            }
+          if (widget.screenIndex < maxScreenIndex) {
+            firestore.collection('order-screens').doc('screen${widget.screenIndex + 1}').set({
+              'animate': true
+            }, SetOptions(merge: true));
+          }
+          else if (widget.screenIndex == maxScreenIndex) {
+            firestore.collection('order-screens').doc('screen${widget.screenIndex + 1}').set({
+              'animate': true
+            }, SetOptions(merge: true));
+          }
         });
     });
 
@@ -95,12 +102,15 @@ class _FlungryOrderScreenState extends State<FlungryOrderScreen> {
   
   @override
   Widget build(BuildContext context) {
-    return Stack(
-        children: [
-          Container(
-            child: animation,
-          )
-        ],
+    return Scaffold(
+      backgroundColor: FlungryColors.mainColor,
+      body: Stack(
+          children: [
+            Container(
+              child: animation,
+            )
+          ],
+      ),
     );
   }
 }
