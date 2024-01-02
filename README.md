@@ -42,5 +42,3 @@ Your Firebase structure should look like this:
 Again this is the prototype I created, but you can feel free to take it much further and play with it.
 
 Good luck!
-
-pipe_right_up
