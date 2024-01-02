@@ -4,7 +4,7 @@ Here's how you get the Flungry project working to get the moving order from scre
 
 Watch the implementation running posted on my YouTube Channel 
 
-![Watch the video](https://youtu.be/idZwAgenFX0)
+[![Video](https://i.ytimg.com/vi_webp/idZwAgenFX0/maxresdefault.webp)](https://youtu.be/idZwAgenFX0)
 
 This is a web project, so you should run it with multiple browser windows.
 The main window is where I do the simulation of processing the burger order. 
