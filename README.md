@@ -12,7 +12,7 @@ You can make the flow as long as you want. For this example I'm doing only 4 scr
 
 When the app is running, then spawn as many tabs as you want on the page route called /order-screen with the following query parameters:
 
-###locahost/order-screen?screenIndex=1&artboard=pipe_up&secs=3###
+## locahost/order-screen?screenIndex=1&artboard=pipe_up&secs=3 ##
 
 where **screenIndex** is the index of the screen in the flow sequence,
 **artboard** is the animation that you want to play inside that screen
